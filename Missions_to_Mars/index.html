@@ -27,8 +27,8 @@
         <div class="media">
           <div class="media-body">
             <h3><b>Latest Mars News</b></h3>
-            <h4 class="heading">{{mars_data.news_title}}</h4>
-            <p>{{mars_data.news_p}}</p>
+            <h4 class="heading">{{results.headlines}}</h4>
+            <p>{{results.pgs}}</p>
             <hr class="my-4">
           </div>
         </div>
@@ -42,7 +42,7 @@
   <!-- Row for Featured Mars Image -->  
     <div class="col-md-8">
       <h3><b>Featured Mars Image</b></h3>
-      <img src={{mars_data.featured_image_url}} height=auto width=750px>
+      <img src={{results.featured_image_url}} height=auto width=750px>
     </div>
 
     <!-- Right Side is divided into two rows -->
@@ -53,7 +53,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <h4><b>Current Weather on Mars</b></h4>
-              {{mars_data.mars_weather}}
+              {{results.mars_weather}}
               <hr class="my-4">
             </div>
           </div>
@@ -66,7 +66,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <h4><b>Mars Facts</b></h4>
-              <p>{{mars_data.mars_facts | safe}}</p>
+              <p>{{results.html_facts | safe}}</p>
             </div>
           </div>
         </div>
@@ -80,12 +80,12 @@
       <h2 class="text-center"><b>Mars Hemispheres</b></h2>
     </div>
     <!-- Loop through hemispheres dictionary with images and titles -->
-    {% for hemisphere in mars_data.hemisphere_image_urls %}
+    {% for hemisphere in results.hemi_images %}
       <div class="col-md-6">
         <div class="thumbnail">
           <img src="{{hemisphere.img_url}}">
         <div class="caption">
-          <h3><b>{{hemisphere.title}}</b></h3>
+          <h3><b>{{hemi_title.title}}</b></h3>
         </div>
       </div>
     {% endfor %}
