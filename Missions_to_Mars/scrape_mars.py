@@ -174,44 +174,50 @@ def mars_factoids():
 def mars_hemispheres():
 
     # browser
-    browser = Browser('chrome', headless=False)                                
+    browser = Browser('chrome', headless=False)                               
     # search url
-    hemi_search = 'https://web.archive.org/web/20181114171728/https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    hemi_search = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     # visit url
     browser.visit(hemi_search)
+    time.sleep(3)
     # get response
     hemi_response = browser.html
+    time.sleep(3)
     # soup
-    hemi_soup = bs(hemi_response, 'html.parser')
+    hemi_soup = bs(hemi_response, 'html.parser') 
 
     # list to be filled
     hemi_images = []
     # product finder
-    products = hemi_soup.find('div', class_='result-list')
+    pics = hemi_soup.find('div', class_='result-list') 
     time.sleep(5)
     # hemi finder
-    hemis = products.find_all('div', class_='item')
-    time.sleep(5)
-    # type(products)
+    hemis = pics.find_all('div', class_='item')
     # iterate the hemis
     for hemi in hemis:
     # get title
-        hemi_title = hemi.find('h3').text
-        hemi_text = hemi_title.replace('Enhanced', '')
-    # note the links
-        img_link = hemi.find('a')['href']
-        search_img = 'https://astrogeology.usgs.gov/' + img_link 
-    # auto click
-        browser.visit(search_img)
-    # get response
-        hemi_html = browser.html
-    # bs response
-        hemi_soup2 = bs(hemi_html, 'html.parser')
-    # find image link
-        hemi_pics = hemi_soup2.find('div', class_='downloads')
-        hemi_url = hemi_pics.find('a')['href']
-    # dictionary
-        hemi_images.append({'title': hemi_text, 'img_url': hemi_url})
+        hemi_title = hemi.find('h3')
+        try:
+            hemi_text = hemi_title.text.replace('Enhanced', '')
+            # note the links
+            img_link = hemi.find('a')['href']
+            search_img = 'https://astrogeology.usgs.gov/' + img_link 
+        # auto click
+            browser.visit(search_img)
+        # get response
+            hemi_html = browser.html
+            time.sleep(3)
+        # bs response
+            hemi_soup2 = bs(hemi_html, 'html.parser')
+            time.sleep(3)
+        # find image link
+            hemi_pics = hemi_soup2.find('div', class_='downloads').find('ul').find('li') 
+            time.sleep(3)
+            hemi_url = hemi_pics.find('a')['href']
+        # dictionary
+            hemi_images.append({'title': hemi_text, 'img_url': hemi_url})
+        except:
+            print('Not found')
 
     browser.quit()
 
